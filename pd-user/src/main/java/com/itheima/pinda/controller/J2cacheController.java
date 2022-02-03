@@ -1,17 +1,9 @@
 package com.itheima.pinda.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itheima.j2cache.annotation.Cache;
 import com.itheima.j2cache.annotation.CacheEvictor;
-import com.itheima.pinda.common.utils.PageResponse;
-import com.itheima.pinda.common.utils.Result;
 import com.itheima.pinda.entity.AddressBook;
-import com.itheima.pinda.service.IAddressBookService;
 import lombok.extern.log4j.Log4j2;
-import net.oschina.j2cache.CacheChannel;
-import net.oschina.j2cache.CacheObject;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

@@ -7,6 +7,8 @@ import com.itheima.pinda.common.utils.PageResponse;
 import com.itheima.pinda.common.utils.Result;
 import com.itheima.pinda.entity.AddressBook;
 import com.itheima.pinda.service.IAddressBookService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import net.oschina.j2cache.CacheObject;
 /**
  * 地址簿
  */
+@Api(tags = "地址簿")
 @Log4j2
 @RestController
 @RequestMapping("addressBook")
@@ -35,6 +38,7 @@ public class AddressBookController {
      * @param entity
      * @return
      */
+    @ApiOperation("新增地址簿")
     @PostMapping("")
     public Result save(@RequestBody AddressBook entity) {
         if (1 == entity.getIsDefault()) {
@@ -56,11 +60,11 @@ public class AddressBookController {
      * @param id
      * @return
      */
+    @ApiOperation("查询地址簿详情")
     @GetMapping("detail/{id}")
     @Cache(region = "addressBook",key = "ab",params = "id")
     public AddressBook detail(@PathVariable(name = "id") String id) {
-       AddressBook addressBook = addressBookService.getById(id);
-        return addressBook;
+        return addressBookService.getById(id);
     }
 
     /**
@@ -71,6 +75,7 @@ public class AddressBookController {
      * @param userId
      * @return
      */
+    @ApiOperation("分页查询")
     @GetMapping("page")
     public PageResponse<AddressBook> page(Integer page, Integer pageSize, String userId, String keyword) {
         Page<AddressBook> iPage = new Page(page, pageSize);
@@ -98,6 +103,7 @@ public class AddressBookController {
      * @param entity
      * @return
      */
+    @ApiOperation("修改")
     @PutMapping("/{id}")
     @CacheEvictor(value = {@Cache(region = "addressBook",key = "ab",params = "1.id")})
     public Result update(@PathVariable(name = "id") String id, @RequestBody AddressBook entity) {
@@ -118,6 +124,7 @@ public class AddressBookController {
      * @param id
      * @return
      */
+    @ApiOperation("删除")
     @DeleteMapping("/{id}")
     @CacheEvictor({@Cache(region = "addressBook",key = "ab",params = "id")})
     public Result del(@PathVariable(name = "id") String id) {
