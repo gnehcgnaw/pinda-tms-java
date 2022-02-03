@@ -1,6 +1,5 @@
 package com.itheima.pinda.config;
 
-import com.itheima.pinda.entity.Order;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.builder.*;
@@ -10,11 +9,10 @@ import org.kie.internal.io.ResourceFactory;
 import org.kie.spring.KModuleBeanFactoryPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
 import java.io.IOException;
 
 //规则引擎自动配置类

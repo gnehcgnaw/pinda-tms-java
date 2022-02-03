@@ -15,6 +15,8 @@ import com.itheima.pinda.entity.Order;
 import com.itheima.pinda.entity.OrderLocation;
 import com.itheima.pinda.service.IOrderLocationService;
 import com.itheima.pinda.service.IOrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +35,7 @@ import java.util.stream.Collectors;
 /**
  * 订单
  */
+@Api(tags = "订单")
 @Log4j2
 @RestController
 @RequestMapping("order")
@@ -50,11 +53,13 @@ public class OrderController {
      * @param orderDTO 订单信息
      * @return 订单信息
      */
+    @ApiOperation("新增订单")
     @PostMapping("")
     public OrderDTO save(@RequestBody OrderDTO orderDTO, HttpServletResponse res) {
         log.info("保存订单信息:{}", JSON.toJSONString(orderDTO));
         Order order = new Order();
         order.setEstimatedArrivalTime(LocalDateTime.now().plus(2, ChronoUnit.DAYS));
+        //计算订单价格
         Map map = orderService.calculateAmount(orderDTO);
         log.info("实时计算运费:{}", map);
         orderDTO = (OrderDTO) map.get("orderDto");
@@ -70,7 +75,7 @@ public class OrderController {
         return result;
     }
 
-
+    @ApiOperation("预计算订单价格")
     @PostMapping("orderMsg")
     public Map save(@RequestBody OrderDTO orderDTO) {
         Map map = Maps.newHashMap();
@@ -96,6 +101,7 @@ public class OrderController {
      * @param orderDTO 订单信息
      * @return 订单信息
      */
+    @ApiOperation("修改订单信息")
     @PutMapping("/{id}")
     public OrderDTO updateById(@PathVariable(name = "id") String id, @RequestBody OrderDTO orderDTO) {
         orderDTO.setId(id);
@@ -111,6 +117,7 @@ public class OrderController {
      * @param orderDTO 查询条件
      * @return 订单分页数据
      */
+    @ApiOperation("获取订单分页数据")
     @PostMapping("/page")
     public PageResponse<OrderDTO> findByPage(@RequestBody OrderDTO orderDTO) {
         Order queryOrder = new Order();
@@ -132,6 +139,7 @@ public class OrderController {
      * @param id 订单Id
      * @return 订单详情
      */
+    @ApiOperation("根据id获取订单详情")
     @GetMapping("/{id}")
     public OrderDTO findById(@PathVariable(name = "id") String id) {
         OrderDTO orderDTO = new OrderDTO();
@@ -151,6 +159,7 @@ public class OrderController {
      * @param ids 订单Id
      * @return 订单详情
      */
+    @ApiOperation("根据id获取集合")
     @GetMapping("ids")
     public List<OrderDTO> findById(@RequestParam(name = "ids") List<String> ids) {
         List<Order> orders = orderService.listByIds(ids);
@@ -161,6 +170,7 @@ public class OrderController {
         }).collect(Collectors.toList());
     }
 
+    @ApiOperation("分页订单列表forCustomer")
     @ResponseBody
     @RequestMapping(value = "pageLikeForCustomer", method = RequestMethod.POST)
     public PageResponse<OrderDTO> pageLikeForCustomer(@RequestBody OrderSearchDTO orderSearchDTO) {
@@ -178,6 +188,7 @@ public class OrderController {
                 .pages(orderIPage.getPages()).build();
     }
 
+    @ApiOperation("订单列表")
     @ResponseBody
     @PostMapping("list")
     public List<Order> list(@RequestBody OrderSearchDTO orderSearchDTO) {
@@ -191,6 +202,7 @@ public class OrderController {
     }
 
 
+    @ApiOperation("更新订单位置信息")
     @ResponseBody
     @PostMapping("location/saveOrUpdate")
     public OrderLocationDto saveOrUpdateLoccation(@RequestBody OrderLocationDto orderLocationDto) {
@@ -216,6 +228,7 @@ public class OrderController {
         return orderLocationDto;
     }
 
+    @ApiOperation("根据订单ID获取最新位置信息")
     @GetMapping("orderId")
     public OrderLocationDto selectByOrderId(@RequestParam(name = "orderId") String orderId) {
         OrderLocationDto result = new OrderLocationDto();
@@ -223,7 +236,7 @@ public class OrderController {
         BeanUtils.copyProperties(location, result);
         return result;
     }
-
+    @ApiOperation("删除位置信息")
     @PostMapping("del")
     public int deleteOrderLocation(@RequestBody OrderLocationDto orderLocationDto) {
         String orderId = orderLocationDto.getOrderId();

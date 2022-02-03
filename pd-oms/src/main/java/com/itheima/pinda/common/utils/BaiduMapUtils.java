@@ -35,7 +35,7 @@ public class BaiduMapUtils {
      * @return
      */
     public static String getCoordinate(String address){
-        String httpUrl = "http://api.map.baidu.com/geocoding/v3/?address=" + address + "&output=json&ak=" + AK;
+        String httpUrl = "https://api.map.baidu.com/geocoding/v3/?address=" + address + "&output=json&ak=" + AK;
         String json = loadJSON(httpUrl);
         Map map = JSON.parseObject(json, Map.class);
 
@@ -64,7 +64,7 @@ public class BaiduMapUtils {
      * @return
      */
     public static Double getDistance(String origin,String destination){
-        String httpUrl = "http://api.map.baidu.com/directionlite/v1/driving?origin="
+        String httpUrl = "https://api.map.baidu.com/directionlite/v1/driving?origin="
                 +origin+"&destination="
                 +destination+"&ak=" + AK;
 
@@ -89,7 +89,7 @@ public class BaiduMapUtils {
      * @return
      */
     public static Integer getTime(String origin,String destination){
-        String httpUrl = "http://api.map.baidu.com/directionlite/v1/driving?origin="
+        String httpUrl = "https://api.map.baidu.com/directionlite/v1/driving?origin="
                 +origin+"&destination="
                 +destination+"&ak=" + AK;
 

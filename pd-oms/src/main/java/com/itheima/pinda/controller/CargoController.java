@@ -5,6 +5,8 @@ import com.itheima.pinda.DTO.OrderCargoDto;
 import com.itheima.pinda.common.utils.Result;
 import com.itheima.pinda.entity.OrderCargo;
 import com.itheima.pinda.service.IOrderCargoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 /**
  * 货物
  */
+@Api("货物")
 @RestController
 @RequestMapping("cargo")
 public class CargoController {
@@ -29,6 +32,7 @@ public class CargoController {
      * @param orderId     订单id
      * @return 货物列表
      */
+    @ApiOperation("根据运单id或订单id获取货物列表")
     @GetMapping("")
     public List<OrderCargoDto> findAll(@RequestParam(name = "tranOrderId", required = false) String tranOrderId, @RequestParam(name = "orderId", required = false) String orderId) {
         return orderCargoService.findAll(tranOrderId, orderId).stream().map(orderCargo -> {
@@ -38,6 +42,7 @@ public class CargoController {
         }).collect(Collectors.toList());
     }
 
+    @ApiOperation("根据订单id获取货物列表")
     @GetMapping("/list")
     public List<OrderCargoDto> list(@RequestParam(name = "orderIds", required = false) List<String> orderIds) {
         LambdaQueryWrapper<OrderCargo> wrapper = new LambdaQueryWrapper<>();
@@ -56,6 +61,7 @@ public class CargoController {
      * @param dto 货物信息
      * @return 货物信息
      */
+    @ApiOperation("添加货物")
     @PostMapping("")
     public OrderCargoDto save(@RequestBody OrderCargoDto dto) {
         OrderCargo orderCargo = new OrderCargo();
@@ -72,6 +78,7 @@ public class CargoController {
      * @param dto 货物信息
      * @return 货物信息
      */
+    @ApiOperation("更新货物信息")
     @PutMapping("/{id}")
     public OrderCargoDto update(@PathVariable(name = "id") String id, @RequestBody OrderCargoDto dto) {
         dto.setId(id);
@@ -87,6 +94,7 @@ public class CargoController {
      * @param id 货物id
      * @return 返回信息
      */
+    @ApiOperation("删除货物信息")
     @DeleteMapping("/{id}")
     public Result del(@PathVariable(name = "id") String id) {
         orderCargoService.removeById(id);
@@ -100,6 +108,7 @@ public class CargoController {
      * @param id 货物id
      * @return 货物详情
      */
+    @ApiOperation("根据id获取货物详情")
     @GetMapping("/{id}")
     public OrderCargoDto findById(@PathVariable(name = "id") String id) {
         OrderCargo orderCargo = orderCargoService.getById(id);

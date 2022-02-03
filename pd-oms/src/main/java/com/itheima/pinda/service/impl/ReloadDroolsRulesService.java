@@ -1,10 +1,8 @@
 package com.itheima.pinda.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.itheima.pinda.entity.Rule;
 import com.itheima.pinda.mapper.RuleMapper;
-import org.apache.poi.ss.formula.functions.T;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
@@ -40,8 +38,7 @@ public class ReloadDroolsRulesService {
      * 重新创建KieContainer对象
      */
     public void reload(){
-        KieContainer kieContainer = this.loadContainerFromString(loadRules());
-        this.kieContainer = kieContainer;
+        this.kieContainer = this.loadContainerFromString(loadRules());
     }
 
     /**
@@ -62,8 +59,6 @@ public class ReloadDroolsRulesService {
         KieBuilder kb = ks.newKieBuilder(kfs);
         kb.buildAll();
 
-        KieContainer kieContainer = ks.newKieContainer(kr.getDefaultReleaseId());
-
-        return kieContainer;
+        return ks.newKieContainer(kr.getDefaultReleaseId());
     }
 }
