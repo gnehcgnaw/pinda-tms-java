@@ -7,6 +7,8 @@ import com.itheima.pinda.common.utils.PageResponse;
 import com.itheima.pinda.common.utils.Result;
 import com.itheima.pinda.entity.transportline.PdTransportLine;
 import com.itheima.pinda.service.transportline.IPdTransportLineService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 /**
  * TransportLineController
  */
+@Api(tags = "线路信息")
 @RestController
 @RequestMapping("base/transportLine")
 public class TransportLineController {
@@ -31,6 +34,7 @@ public class TransportLineController {
      * @param dto 线路信息
      * @return 线路信息
      */
+    @ApiOperation("添加线路")
     @PostMapping("")
     public TransportLineDto saveTransportLine(@RequestBody TransportLineDto dto) {
         PdTransportLine pdTransportLine = new PdTransportLine();
@@ -46,6 +50,7 @@ public class TransportLineController {
      * @param id 线路id
      * @return 线路详情
      */
+    @ApiOperation("根据id获取线路详情")
     @GetMapping("/{id}")
     public TransportLineDto fineById(@PathVariable(name = "id") String id) {
         PdTransportLine pdTransportLine = transportLineService.getById(id);
@@ -68,6 +73,7 @@ public class TransportLineController {
      * @param transportLineTypeId 线路类型id
      * @return 线路分页信息
      */
+    @ApiOperation("获取线路分页信息")
     @GetMapping("/page")
     public PageResponse<TransportLineDto> findByPage(@RequestParam(name = "page") Integer page,
                                                      @RequestParam(name = "pageSize") Integer pageSize,
@@ -91,6 +97,7 @@ public class TransportLineController {
      * @param ids 线路id列表
      * @return 线路列表
      */
+    @ApiOperation("获取线路列表")
     @GetMapping("")
     public List<TransportLineDto> findAll(@RequestParam(name = "ids", required = false) List<String> ids,
                                           @RequestParam(name = "agencyId", required = false) String agencyId,
@@ -109,6 +116,7 @@ public class TransportLineController {
      * @param dto 线路信息
      * @return 线路信息
      */
+    @ApiOperation("更新线路信息")
     @PutMapping("/{id}")
     public TransportLineDto update(@PathVariable(name = "id") String id, @RequestBody TransportLineDto dto) {
         dto.setId(id);
@@ -124,6 +132,7 @@ public class TransportLineController {
      * @param id 线路id
      * @return 返回信息
      */
+    @ApiOperation("删除线路")
     @PutMapping("/{id}/disable")
     public Result disable(@PathVariable(name = "id") String id) {
         transportLineService.disable(id);
@@ -136,6 +145,7 @@ public class TransportLineController {
      *
      * @return 线路列表
      */
+    @ApiOperation("获取线路列表")
     @PostMapping("list")
     public List<TransportLineDto> list(@RequestBody TransportLineDto transportLineDto) {
         LambdaQueryWrapper<PdTransportLine> wrapper = new LambdaQueryWrapper<>();

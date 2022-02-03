@@ -1,6 +1,5 @@
 package com.itheima.pinda.controller.user;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.itheima.pinda.DTO.user.TruckDriverDto;
@@ -10,6 +9,7 @@ import com.itheima.pinda.entity.user.PdTruckDriver;
 import com.itheima.pinda.entity.user.PdTruckDriverLicense;
 import com.itheima.pinda.service.user.IPdTruckDriverLicenseService;
 import com.itheima.pinda.service.user.IPdTruckDriverService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 /**
  * 司机相关
  */
+@Api(tags = "司机相关")
 @RestController
 @RequestMapping("sys/driver")
 public class DriverController {

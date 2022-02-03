@@ -12,14 +12,17 @@ import com.itheima.pinda.service.transportline.IPdTransportTripsService;
 import com.itheima.pinda.DTO.transportline.TransportTripsDto;
 
 import com.itheima.pinda.service.transportline.IPdTransportTripsTruckDriverService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.BeanUtils;
 
 /**
- * TransportTripsController
+ * TransportTripsController   车次是针对路线来的
  */
+@Api(tags = "车次")
 @RestController
 @RequestMapping("base/transportLine/trips")
 public class TransportTripsController {
@@ -34,6 +37,7 @@ public class TransportTripsController {
      * @param dto 车次信息
      * @return 车次信息
      */
+    @ApiOperation("添加车次")
     @PostMapping("")
     public TransportTripsDto save(@RequestBody TransportTripsDto dto) {
         PdTransportTrips pdTransportTrips = new PdTransportTrips();
@@ -49,6 +53,7 @@ public class TransportTripsController {
      * @param id 车次id
      * @return 车次信息
      */
+    @ApiOperation("根据id获取车次详情")
     @GetMapping("/{id}")
     public TransportTripsDto fineById(@PathVariable(name = "id") String id) {
         PdTransportTrips pdTransportTrips = transportTripsService.getById(id);
@@ -68,6 +73,7 @@ public class TransportTripsController {
      * @param ids             车次id列表
      * @return 车次列表
      */
+    @ApiOperation("获取车次列表")
     @GetMapping("")
     public List<TransportTripsDto> findAll(@RequestParam(name = "transportLineId", required = false) String transportLineId, @RequestParam(name = "ids", required = false) List<String> ids) {
         return transportTripsService.findAll(transportLineId, ids).stream().map(pdTransportTrips -> {
@@ -84,6 +90,7 @@ public class TransportTripsController {
      * @param dto 车次信息
      * @return 车次信息
      */
+    @ApiOperation("更新车次信息")
     @PutMapping("/{id}")
     public TransportTripsDto update(@PathVariable(name = "id") String id, @RequestBody TransportTripsDto dto) {
         dto.setId(id);
@@ -99,6 +106,7 @@ public class TransportTripsController {
      * @param id 车次信息
      * @return 返回信息
      */
+    @ApiOperation("删除车次信息")
     @PutMapping("/{id}/disable")
     public Result disable(@PathVariable(name = "id") String id) {
         transportTripsService.disable(id);
@@ -111,6 +119,7 @@ public class TransportTripsController {
      * @param dtoList 车次与车辆和司机关联关系
      * @return 返回信息
      */
+    @ApiOperation("批量保存车次与车辆和司机关联关系")
     @PostMapping("{id}/truckDriver")
     public Result batchSaveTruckDriver(@PathVariable("id") String transportTripsId, @RequestBody List<TransportTripsTruckDriverDto> dtoList) {
         transportTripsTruckDriverService.batchSave(transportTripsId, dtoList.stream().map(dto -> {
@@ -130,6 +139,7 @@ public class TransportTripsController {
      * @param userId           司机id
      * @return 车次与车辆和司机关联关系列表
      */
+    @ApiOperation("获取车次与车辆和司机关联关系列表")
     @GetMapping("/truckDriver")
     public List<TransportTripsTruckDriverDto> findAllTruckDriverTransportTrips(@RequestParam(name = "transportTripsId", required = false) String transportTripsId, @RequestParam(name = "truckId", required = false) String truckId, @RequestParam(name = "userId", required = false) String userId) {
         return transportTripsTruckDriverService.findAll(transportTripsId, truckId, userId).stream().map(pdTransportTripsTruck -> {

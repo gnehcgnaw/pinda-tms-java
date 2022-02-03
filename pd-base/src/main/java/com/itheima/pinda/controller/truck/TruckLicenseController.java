@@ -6,6 +6,8 @@ import com.itheima.pinda.service.truck.IPdTruckLicenseService;
 import com.itheima.pinda.DTO.truck.TruckLicenseDto;
 
 import com.itheima.pinda.service.truck.IPdTruckService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 /**
  * TruckLicenseController
  */
+@Api(tags = "车辆行驶证")
 @RestController
 @RequestMapping("base/truck/license")
 public class TruckLicenseController {
@@ -33,6 +36,7 @@ public class TruckLicenseController {
      * @param dto 车辆行驶证信息
      * @return 车辆行驶证信息
      */
+    @ApiOperation("保存车辆行驶证信息")
     @PostMapping("")
     public TruckLicenseDto saveTruckLicense(@RequestBody TruckLicenseDto dto) {
         PdTruckLicense pdTruckLicense = new PdTruckLicense();
@@ -54,6 +58,7 @@ public class TruckLicenseController {
      * @param id 车辆行驶证id
      * @return 车辆行驶证信息
      */
+    @ApiOperation("根据id获取车辆行驶证详情")
     @GetMapping("/{id}")
     public TruckLicenseDto fineById(@PathVariable(name = "id") String id) {
         PdTruckLicense pdTruckLicense = truckLicenseService.getById(id);

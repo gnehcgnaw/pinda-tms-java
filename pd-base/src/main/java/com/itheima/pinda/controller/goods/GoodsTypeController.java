@@ -1,4 +1,4 @@
-package com.itheima.pinda.controller;
+package com.itheima.pinda.controller.goods;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
@@ -34,7 +34,8 @@ public class GoodsTypeController {
     private IPdTruckTypeGoodsTypeService truckTypeGoodsTypeService;
 
     /**
-     * 新增货物类型，同时需要关联车辆类型
+     * //todo 需要改造控制事务
+     * 新增货物类型，同时需要关联车辆类型 , 货物类型：车辆类型 = 1：N
      * @param goodsTypeDto 货物类型信息
      * @return 货物类型信息
      */
@@ -81,8 +82,7 @@ public class GoodsTypeController {
         //还需要查询当前货物类型关联的车辆类型的id
         List<PdTruckTypeGoodsType> list = truckTypeGoodsTypeService.findAll(null, id);
         if(list != null && list.size() > 0){
-            List<String> truckTypeId = list.stream().map(pdTruckTypeGoodsType ->
-                pdTruckTypeGoodsType.getTruckTypeId()
+            List<String> truckTypeId = list.stream().map(PdTruckTypeGoodsType::getTruckTypeId
             ).collect(Collectors.toList());
             goodsTypeDto.setTruckTypeIds(truckTypeId);
         }
@@ -133,7 +133,7 @@ public class GoodsTypeController {
         if(goodsTypePageRecords != null && goodsTypePageRecords.size() > 0){
             List<GoodsTypeDto> goodsTypeDtoList = goodsTypePageRecords.stream().map(goodsType -> {
                 List<PdTruckTypeGoodsType> truckTypeGoodsTypes = truckTypeGoodsTypeService.findAll(null, goodsType.getId());
-                List<String> truckTypeIds = truckTypeGoodsTypes.stream().map(pdTruckTypeGoodsType -> pdTruckTypeGoodsType.getTruckTypeId()).collect(Collectors.toList());
+                List<String> truckTypeIds = truckTypeGoodsTypes.stream().map(PdTruckTypeGoodsType::getTruckTypeId).collect(Collectors.toList());
                 GoodsTypeDto goodsTypeDto = new GoodsTypeDto();
                 BeanUtils.copyProperties(goodsType, goodsTypeDto);
                 goodsTypeDto.setTruckTypeIds(truckTypeIds);
@@ -158,7 +158,7 @@ public class GoodsTypeController {
         if(list != null && list.size() > 0){
             List<GoodsTypeDto> goodsTypeDtoList = list.stream().map(pdGoodsType -> {
                 List<PdTruckTypeGoodsType> truckTypeGoodsTypes = truckTypeGoodsTypeService.findAll(null, pdGoodsType.getId());
-                List<String> truckTypeIds = truckTypeGoodsTypes.stream().map(truckTypeGoodsType -> truckTypeGoodsType.getTruckTypeId()).collect(Collectors.toList());
+                List<String> truckTypeIds = truckTypeGoodsTypes.stream().map(PdTruckTypeGoodsType::getTruckTypeId).collect(Collectors.toList());
                 GoodsTypeDto goodsTypeDto = new GoodsTypeDto();
                 BeanUtils.copyProperties(pdGoodsType, goodsTypeDto);
                 goodsTypeDto.setTruckTypeIds(truckTypeIds);

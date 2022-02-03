@@ -12,6 +12,8 @@ import com.itheima.pinda.entity.transportline.PdTransportLineType;
 import com.itheima.pinda.service.transportline.IPdTransportLineTypeService;
 import com.itheima.pinda.DTO.transportline.TransportLineTypeDto;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * TransportLineTypeController
  */
+@Api(tags = "线路类型")
 @RestController
 @RequestMapping("base/transportLine/type")
 public class TransportLineTypeController {
@@ -38,6 +41,7 @@ public class TransportLineTypeController {
      * @param dto 线路类型信息
      * @return 线路类型信息
      */
+    @ApiOperation("添加线路类型")
     @PostMapping("")
     public TransportLineTypeDto saveTransportLineType(@RequestBody TransportLineTypeDto dto) {
         PdTransportLineType pdTransportLineType = new PdTransportLineType();
@@ -53,6 +57,7 @@ public class TransportLineTypeController {
      * @param id 线路类型id
      * @return 线路类型详情
      */
+    @ApiOperation("根据id获取线路类型详情")
     @GetMapping("/{id}")
     public TransportLineTypeDto fineById(@PathVariable(name = "id") String id) {
         PdTransportLineType pdTransportLineType = transportLineTypeService.getById(id);
@@ -71,6 +76,7 @@ public class TransportLineTypeController {
      * @param agencyType 机构类型
      * @return 线路类型分页数据
      */
+    @ApiOperation("获取线路类型分页数据")
     @GetMapping("/page")
     public PageResponse<TransportLineTypeDto> findByPage(@RequestParam(name = "page") Integer page,
                                                          @RequestParam(name = "pageSize") Integer pageSize,
@@ -94,6 +100,7 @@ public class TransportLineTypeController {
      * @param ids 线路类型id列表
      * @return 线路类型列表
      */
+    @ApiOperation("获取线路类型列表")
     @GetMapping("")
     public List<TransportLineTypeDto> findAll(@RequestParam(name = "ids", required = false) List<String> ids) {
         return transportLineTypeService.findAll(ids).stream().map(pdTransportLineType -> {
@@ -110,6 +117,7 @@ public class TransportLineTypeController {
      * @param dto 线路类型信息
      * @return 线路类型信息
      */
+    @ApiOperation("更新线路类型信息")
     @PutMapping("/{id}")
     public TransportLineTypeDto update(@PathVariable(name = "id") String id, @RequestBody TransportLineTypeDto dto) {
         dto.setId(id);
@@ -126,6 +134,7 @@ public class TransportLineTypeController {
      * @param id 线路类型id
      * @return 返回信息
      */
+    @ApiOperation("删除线路类型")
     @PutMapping("/{id}/disable")
     public Result disable(@PathVariable(name = "id") String id) {
         transportLineTypeService.disableById(id);

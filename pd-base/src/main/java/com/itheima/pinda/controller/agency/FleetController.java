@@ -10,6 +10,8 @@ import com.itheima.pinda.common.utils.Result;
 import com.itheima.pinda.entity.agency.PdFleet;
 import com.itheima.pinda.service.agency.IPdFleetService;
 import com.itheima.pinda.DTO.angency.FleetDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * FleetController
  */
+@Api(tags = "车队信息")
 @RestController
 @RequestMapping("sys/agency/fleet")
 public class FleetController {
@@ -37,6 +40,7 @@ public class FleetController {
      * @param dto 车队信息
      * @return 车队信息
      */
+    @ApiOperation("添加车队")
     @PostMapping("")
     public FleetDto saveAgencyType(@RequestBody FleetDto dto) {
         PdFleet pdFleet = new PdFleet();
@@ -52,6 +56,7 @@ public class FleetController {
      * @param id 车队id
      * @return 车队信息
      */
+    @ApiOperation("根据id获取车队详情")
     @GetMapping("/{id}")
     public FleetDto fineById(@PathVariable(name = "id") String id) {
         PdFleet pdFleet = fleetService.getById(id);
@@ -70,6 +75,7 @@ public class FleetController {
      * @param manager     负责人id
      * @return 车队分页数据
      */
+    @ApiOperation("获取车队分页数据")
     @GetMapping("/page")
     public PageResponse<FleetDto> findByPage(@RequestParam(name = "page") Integer page,
                                              @RequestParam(name = "pageSize") Integer pageSize,
@@ -93,6 +99,7 @@ public class FleetController {
      * @param ids 车队Id列表
      * @return 车队列表
      */
+    @ApiOperation("获取车队列表")
     @GetMapping("")
     public List<FleetDto> findAll(@RequestParam(value = "ids", required = false) List<String> ids, @RequestParam(value = "agencyId", required = false) String agencyId) {
         return fleetService.findAll(ids, agencyId).stream().map(pdFleet -> {
@@ -108,6 +115,7 @@ public class FleetController {
      * @param dto 车队信息
      * @return 车队信息
      */
+    @ApiOperation("更新车队信息")
     @PutMapping("/{id}")
     public FleetDto update(@PathVariable(name = "id") String id, @RequestBody FleetDto dto) {
         dto.setId(id);
@@ -123,6 +131,7 @@ public class FleetController {
      * @param id 车队id
      * @return 返回信息
      */
+    @ApiOperation("删除车队")
     @PutMapping("/{id}/disable")
     public Result disable(@PathVariable(name = "id") String id) {
         fleetService.disableById(id);

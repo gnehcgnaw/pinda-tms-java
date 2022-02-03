@@ -1,6 +1,8 @@
 package com.itheima.pinda.controller.scope;
 
 import com.google.gson.Gson;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ObjectUtils;
 import com.alibaba.fastjson.JSON;
@@ -27,12 +29,15 @@ import java.util.stream.Collectors;
  * @author jpf
  * @since 2019-12-23
  */
+@Api(tags = "业务范围")
 @RestController
 @RequestMapping("scope")
 @Log
 public class ScopeController {
+    // 机构业务范围
     @Autowired
     private IPdAgencyScopeService agencyScopService;
+    // 快递员业务范围
     @Autowired
     private IPdCourierScopeService courierScopeService;
 
@@ -42,6 +47,7 @@ public class ScopeController {
      * @param dtoList 机构业务范围信息
      * @return 返回信息
      */
+    @ApiOperation("批量保存机构业务范围")
     @PostMapping("/agency/batch")
     public Result batchSaveAgencyScope(@RequestBody List<AgencyScopeDto> dtoList) {
         agencyScopService.batchSave(dtoList.stream().map(dto -> {
@@ -61,6 +67,7 @@ public class ScopeController {
      * @param dto 参数
      * @return 返回信息
      */
+    @ApiOperation("删除机构业务范围信息")
     @DeleteMapping("/agency")
     public Result deleteAgencyScope(@RequestBody AgencyScopeDto dto) {
         agencyScopService.delete(dto.getAreaId(), dto.getAgencyId());
@@ -74,6 +81,7 @@ public class ScopeController {
      * @param agencyId 机构id
      * @return 机构业务范围列表
      */
+    @ApiOperation("获取机构业务范围列表")
     @GetMapping("/agency")
     public List<AgencyScopeDto> findAllAgencyScope(@RequestParam(name = "areaId", required = false) String areaId, @RequestParam(name = "agencyId", required = false) String agencyId, @RequestParam(name = "agencyIds", required = false) List<String> agencyIds, @RequestParam(name = "areaIds", required = false) List<String> areaIds) {
         return agencyScopService.findAll(areaId, agencyId, agencyIds, areaIds).stream().map(scope -> {
@@ -94,6 +102,7 @@ public class ScopeController {
      * @param dtoList 快递员业务范围信息
      * @return 返回信息
      */
+    @ApiOperation("批量保存快递员业务范围")
     @PostMapping("/courier/batch")
     public Result batchSaveCourierScope(@RequestBody List<CourierScopeDto> dtoList) {
         courierScopeService.batchSave(dtoList.stream().map(dto -> {
@@ -113,6 +122,7 @@ public class ScopeController {
      * @param dto 参数
      * @return 返回信息
      */
+    @ApiOperation("删除快递员业务范围信息")
     @DeleteMapping("/courier")
     public Result deleteCourierScope(@RequestBody CourierScopeDto dto) {
         courierScopeService.delete(dto.getAreaId(), dto.getUserId());
@@ -126,6 +136,7 @@ public class ScopeController {
      * @param userId 快递员id
      * @return 快递员业务范围列表
      */
+    @ApiOperation("获取快递员业务范围列表")
     @GetMapping("/courier")
     public List<CourierScopeDto> findAllCourierScope(@RequestParam(name = "areaId", required = false) String areaId, @RequestParam(name = "userId", required = false) String userId) {
         return courierScopeService.findAll(areaId, userId).stream().map(scope -> {
@@ -139,13 +150,4 @@ public class ScopeController {
             return dto;
         }).collect(Collectors.toList());
     }
-
-//    public static void main(String[] args) {
-//        String str = "[[{\"lng\":\"1\",\"lat\":\"2\"},{\"lng\":\"3\",\"lat\":\"4\"}],[{\"lng\":\"5\",\"lat\":\"6\"},{\"lng\":\"7\",\"lat\":\"84\"}]]";
-//        List<List> mutiPoints = JSON.parseArray(str,List.class);
-//        System.out.println(JSON.toJSONString(mutiPoints));
-//        Gson gson = new Gson();
-//        List<List<Map>> json = gson.fromJson(str,List.class);
-//        System.out.println(JSON.toJSONString(json));
-//    }
 }

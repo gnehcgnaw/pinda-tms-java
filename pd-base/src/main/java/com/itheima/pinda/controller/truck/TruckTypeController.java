@@ -15,6 +15,8 @@ import com.itheima.pinda.service.truck.IPdTruckTypeGoodsTypeService;
 import com.itheima.pinda.service.truck.IPdTruckTypeService;
 import com.itheima.pinda.DTO.truck.TruckTypeDto;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +32,7 @@ import org.springframework.beans.BeanUtils;
 /**
  * TruckTypeController
  */
+@Api(tags = "车辆类型")
 @RestController
 @RequestMapping("base/truck/type")
 public class TruckTypeController {
@@ -44,6 +47,7 @@ public class TruckTypeController {
      * @param dto 车辆类型信息
      * @return 车辆类型信息
      */
+    @ApiOperation("添加车辆类型")
     @PostMapping("")
     public TruckTypeDto saveTruckType(@RequestBody TruckTypeDto dto) {
         PdTruckType pdTruckType = new PdTruckType();
@@ -69,6 +73,7 @@ public class TruckTypeController {
      * @param id 车辆类型id
      * @return 车辆类型信息
      */
+    @ApiOperation("根据id获取车辆类型详情")
     @GetMapping("/{id}")
     public TruckTypeDto fineById(@PathVariable(name = "id") String id) {
         PdTruckType pdTruckType = truckTypeService.getById(id);
@@ -88,6 +93,7 @@ public class TruckTypeController {
      * @param allowableVolume 车辆体积
      * @return 车辆类型分页数据
      */
+    @ApiOperation("获取车辆类型分页数据")
     @GetMapping("/page")
     public PageResponse<TruckTypeDto> findByPage(@RequestParam(name = "page") Integer page,
                                                  @RequestParam(name = "pageSize") Integer pageSize,
@@ -113,8 +119,9 @@ public class TruckTypeController {
      * @param ids 车辆类型id
      * @return 车辆类型列表
      */
+    @ApiOperation("获取车辆类型列表")
     @GetMapping("")
-    public List<TruckTypeDto> findAll(@RequestParam(name = "ids",required = false) List<String> ids) {
+    public List<TruckTypeDto> findAll(@RequestParam(name = "ids", required = false) List<String> ids) {
         return truckTypeService.findAll(ids).stream().map(truckType -> {
             TruckTypeDto dto = new TruckTypeDto();
             BeanUtils.copyProperties(truckType, dto);
@@ -130,6 +137,7 @@ public class TruckTypeController {
      * @param dto 车辆类型信息
      * @return 车辆类型信息
      */
+    @ApiOperation("更新车辆类型信息")
     @PutMapping("/{id}")
     public TruckTypeDto update(@PathVariable(name = "id") String id, @RequestBody TruckTypeDto dto) {
         dto.setId(id);
@@ -156,6 +164,7 @@ public class TruckTypeController {
      * @param id 车辆类型Id
      * @return 返回信息
      */
+    @ApiOperation("删除车辆类型")
     @PutMapping("/{id}/disable")
     public Result disable(@PathVariable(name = "id") String id) {
         // TODO: 2020/1/8 待实现，是否关联数据
